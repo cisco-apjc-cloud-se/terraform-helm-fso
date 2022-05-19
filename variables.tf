@@ -1,7 +1,7 @@
-## Kubernetes Credential Variables ##
-variable "kube_config" {
-  type = string
-}
+# ## Kubernetes Credential Variables ##
+# variable "kube_config" {
+#   type = string
+# }
 
 ## IWO Collector Variables ##
 variable "iwo" {

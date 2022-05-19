@@ -61,7 +61,7 @@ variable "install_cluster_agent" {
 
 variable "install_machine_agents" {
   type = bool
-  default = true
+  default = false
 }
 
 ### InfraViz ###
@@ -93,7 +93,7 @@ variable "infraviz_stdout_logging" {
 ### NetViz ###
 variable "netviz_enabled" {
   type = bool
-  default = true
+  default = false
 }
 
 ### Cluster Agent ###
@@ -104,7 +104,7 @@ variable "clusteragent_montior_namespace_regex" {
 ### Auto Instrumentation ###
 variable "autoinstrumentation_enabled" {
   type = bool
-  default = true
+  default = false
 }
 
 variable "autoinstrumentation_namespace_regex" {
