@@ -92,7 +92,7 @@ module "appd" {
   autoinstrumentation_default_appname             = try(var.appd.autoinstrument.default_appname, null)#var.autoinstrument.default_appname != null ? var.autoinstrument.default_appname : null
   autoinstrumentation_appname_strategy            = try(var.appd.autoinstrument.appname_strategy, null)#var.autoinstrument.appname_strategy != null ? var.autoinstrument.appname_strategy : null
   autoinstrumentation_java_runasuser              = try(var.appd.autoinstrument.java.runasuser, null)#var.autoinstrument.java.runasuser != null ? var.autoinstrument.java.runasuser : null
-  autoinstrumentation_java_image                  = var.appd.autoinstrument.java.image #try(var.appd.autoinstrument.java.image, null)#var.autoinstrument.java.image != null ? var.autoinstrument.java.image : null
+  autoinstrumentation_java_image                  = try(var.appd.autoinstrument.java.image, null)#var.autoinstrument.java.image != null ? var.autoinstrument.java.image : null
   autoinstrumentation_java_imagepullpolicy        = try(var.appd.autoinstrument.java.imagepullpolicy, null)#var.autoinstrument.java.imagepullpolicy != null ? var.autoinstrument.java.imagepullpolicy : null
   autoinstrumentation_dotnetcore_runasuser        = try(var.appd.autoinstrument.dotnetcore.runasuser, null)#var.autoinstrument.dotnetcore.runasuser != null ? var.autoinstrument.dotnetcore.runasuser : null
   autoinstrumentation_dotnetcore_image            = try(var.appd.autoinstrument.dotnetcore.image, null)#var.autoinstrument.dotnetcore.image != null ? var.autoinstrument.dotnetcore.image : null
