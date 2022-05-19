@@ -112,7 +112,7 @@ operatorServiceAccount: appdynamics-operator
 infravizServiceAccount: appdynamics-infraviz
 
 install:
-  metrics-server:  ${var.appd_install_metrics_server}
+  metrics-server:  ${var.install_metrics_server}
 
 EOF
    ]
