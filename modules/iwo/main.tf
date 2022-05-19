@@ -27,7 +27,7 @@ resource "kubernetes_namespace" "iwo" {
 
 ## Add IWO K8S Collector Release ##
 resource "helm_release" "iwo-collector" {
- namespace   = kubernetes_namespace.iwo-collector.metadata[0].name
+ namespace   = kubernetes_namespace.iwo.metadata[0].name
  name        = "iwo-collector"
 
  chart       = var.chart_url
