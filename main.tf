@@ -81,36 +81,36 @@ module "appd" {
   infraviz_stdout_logging           = var.infraviz.stdout_logging
 
   ### NetViz ###
-  netviz_enabled = var.netviz.enabled
+  netviz_enabled = var.netiz != null ? var.netviz.enabled : null
 
   ### Cluster Agent ###
-  clusteragent_montior_namespace_regex = var.cluster.montior_namespace_regex
+  clusteragent_montior_namespace_regex = var.cluster != null ? var.cluster.montior_namespace_regex : null
 
   ### Auto Instrumentation ###
-  autoinstrumentation_enabled                     = var.autoinstrument.enabled
-  autoinstrumentation_namespace_regex             = var.autoinstrument.namespace_regex
-  autoinstrumentation_default_appname             = var.autoinstrument.default_appname
-  autoinstrumentation_appname_strategy            = var.autoinstrument.appname_strategy
-  autoinstrumentation_java_runasuser              = var.autoinstrument.java.runasuser
-  autoinstrumentation_java_image                  = var.autoinstrument.java.image
-  autoinstrumentation_java_imagepullpolicy        = var.autoinstrument.java.imagepullpolicy
-  autoinstrumentation_dotnetcore_runasuser        = var.autoinstrument.dotnetcore.runasuser
-  autoinstrumentation_dotnetcore_image            = var.autoinstrument.dotnetcore.image
-  autoinstrumentation_dotnetcore_imagepullpolicy  = var.autoinstrument.dotnetcore.imagepullpolicy
-  autoinstrumentation_nodejs_runasuser            = var.autoinstrument.nodejs.runasuser
-  autoinstrumentation_nodejs_image                = var.autoinstrument.nodejs.image  # Note: No Latest Image Tag
-  autoinstrumentation_nodejs_imagepullpolicy      = var.autoinstrument.nodejs.runasuser
+  autoinstrumentation_enabled                     = var.autoinstrument != null ? var.autoinstrument.enabled : false
+  autoinstrumentation_namespace_regex             = var.autoinstrument.namespace_regex != null ? var.autoinstrument.namespace_regex : null
+  autoinstrumentation_default_appname             = var.autoinstrument.default_appname != null ? var.autoinstrument.default_appname : null
+  autoinstrumentation_appname_strategy            = var.autoinstrument.appname_strategy != null ? var.autoinstrument.appname_strategy : null
+  autoinstrumentation_java_runasuser              = var.autoinstrument.java.runasuser != null ? var.autoinstrument.java.runasuser : null
+  autoinstrumentation_java_image                  = var.autoinstrument.java.image != null ? var.autoinstrument.java.image : null
+  autoinstrumentation_java_imagepullpolicy        = var.autoinstrument.java.imagepullpolicy != null ? var.autoinstrument.java.imagepullpolicy : null
+  autoinstrumentation_dotnetcore_runasuser        = var.autoinstrument.dotnetcore.runasuser != null ? var.autoinstrument.dotnetcore.runasuser : null
+  autoinstrumentation_dotnetcore_image            = var.autoinstrument.dotnetcore.image != null ? var.autoinstrument.dotnetcore.image : null
+  autoinstrumentation_dotnetcore_imagepullpolicy  = var.autoinstrument.dotnetcore.imagepullpolicy != null ? var.autoinstrument.dotnetcore.imagepullpolicy : null
+  autoinstrumentation_nodejs_runasuser            = var.autoinstrument.nodejs.runasuser != null ? var.autoinstrument.nodejs.runasuser : null
+  autoinstrumentation_nodejs_image                = var.autoinstrument.nodejs.image != null ? var.autoinstrument.nodejs.image : null  # Note: No Latest Image Tag
+  autoinstrumentation_nodejs_imagepullpolicy      = var.autoinstrument.nodejs.runasuser != null ? var.autoinstrument.nodejs.runasuser : null
 
   ### Image Information ###
-  imageinfo_clusteragent_image    = var.imageinfo.clusteragent.image
-  imageinfo_clusteragent_tag      = var.imageinfo.clusteragent.tag
-  imageinfo_operator_image        = var.imageinfo.operator.image
-  imageinfo_operator_tag          = var.imageinfo.operator.tag
-  imageinfo_imagepullpolicy       = var.imageinfo.imagepullpolicy
-  imageinfo_machineagent_image    = var.imageinfo.machineagent.image
-  imageinfo_machineagent_tag      = var.imageinfo.machineagent.tag
-  imageinfo_machineagentwin_image = var.imageinfo.machineagentwin.image
-  imageinfo_machineagentwin_tag   = var.imageinfo.machineagentwin.tag
-  imageinfo_netviz_image          = var.imageinfo.netviz.image
-  imageinfo_netviz_tag            = var.imageinfo.netviz.tag
+  imageinfo_clusteragent_image    = var.imageinfo.clusteragent.image != null ? var.imageinfo.clusteragent.image : null
+  imageinfo_clusteragent_tag      = var.imageinfo.clusteragent.tag != null ? var.imageinfo.clusteragent.tag : null
+  imageinfo_operator_image        = var.imageinfo.operator.image != null ? var.imageinfo.operator.image : null
+  imageinfo_operator_tag          = var.imageinfo.operator.tag != null ? var.imageinfo.operator.tag : null
+  imageinfo_imagepullpolicy       = var.imageinfo.imagepullpolicy != null ? var.imageinfo.imagepullpolicy : null
+  imageinfo_machineagent_image    = var.imageinfo.machineagent.image != null ? var.imageinfo.machineagent.image : null
+  imageinfo_machineagent_tag      = var.imageinfo.machineagent.tag != null ?  var.imageinfo.machineagent.tag : null
+  imageinfo_machineagentwin_image = var.imageinfo.machineagentwin.image != null ? var.imageinfo.machineagentwin.image : null
+  imageinfo_machineagentwin_tag   = var.imageinfo.machineagentwin.tag != null ? var.imageinfo.machineagentwin.tag : null
+  imageinfo_netviz_image          = var.imageinfo.netviz.image != null ? var.imageinfo.netviz.image : null
+  imageinfo_netviz_tag            = var.imageinfo.netviz.tag != null ? var.imageinfo.netviz.tag : null
 }

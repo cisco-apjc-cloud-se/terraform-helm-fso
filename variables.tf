@@ -43,55 +43,55 @@ variable "appd" {
       enable_masters          = optional(bool)
       stdout_logging          = optional(bool)
       })
-    netviz = object({
+    netviz = optional(object({
       enabled = optional(bool)
-      })
-    cluster = object({
+      }))
+    cluster = optional(object({
       montior_namespace_regex = optional(string)
-      })
-    autoinstrument = object({
+      }))
+    autoinstrument = optional(object({
       enabled           = bool
       namespace_regex   = optional(string)
       default_appname   = optional(string)
       appname_strategy  = optional(string)
-      java = object({
+      java = optional(object({
         runasuser       = optional(number)
         image           = optional(string)
         imagepullpolicy = optional(string)
-        })
-      dotnetcore = object({
+        }))
+      dotnetcore = optional(object({
         runasuser       = optional(number)
         image           = optional(string)
         imagepullpolicy = optional(string)
-        })
-      nodejs = object({
+        }))
+      nodejs = optional(object({
         runasuser       = optional(number)
         image           = optional(string)
         imagepullpolicy = optional(string)
-        })
-      imageinfo = object({
+        }))
+      imageinfo = optional(object({
         imagepullpolicy = optional(string)
-        clusteragent = object({
+        clusteragent = optional(object({
           image = optional(string)
           tag   = optional(string)
-          })
-        operator = object({
+          }))
+        operator = optional(object({
           image = optional(string)
           tag   = optional(string)
-          })
-        machineagent = object({
+          }))
+        machineagent = optional(object({
           image = optional(string)
           tag   = optional(string)
-          })
-        machineagentwin = object({
+          }))
+        machineagentwin = optional(object({
           image = optional(string)
           tag   = optional(string)
-          })
-        netviz = object({
+          }))
+        netviz = optional(object({
           image = optional(string)
           tag   = optional(string)
-          })
-        })
-      })
+          }))
+        }))
+      }))
     })
 }
