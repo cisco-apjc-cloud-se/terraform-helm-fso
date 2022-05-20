@@ -91,15 +91,15 @@ module "appd" {
   autoinstrumentation_namespace_regex             = var.appd.autoinstrument.namespace_regex # var.autoinstrument.namespace_regex != null ? var.autoinstrument.namespace_regex : null
   autoinstrumentation_default_appname             = var.appd.autoinstrument.default_appname #var.autoinstrument.default_appname != null ? var.autoinstrument.default_appname : null
   autoinstrumentation_appname_strategy            = var.appd.autoinstrument.appname_strategy #var.autoinstrument.appname_strategy != null ? var.autoinstrument.appname_strategy : null
-  autoinstrumentation_java_runasuser              = var.appd.autoinstrument.java.runasuser #var.autoinstrument.java.runasuser != null ? var.autoinstrument.java.runasuser : null
-  autoinstrumentation_java_image                  = var.appd.autoinstrument.java.image #var.autoinstrument.java.image != null ? var.autoinstrument.java.image : null
-  autoinstrumentation_java_imagepullpolicy        = var.appd.autoinstrument.java.imagepullpolicy #var.autoinstrument.java.imagepullpolicy != null ? var.autoinstrument.java.imagepullpolicy : null
-  autoinstrumentation_dotnetcore_runasuser        = var.appd.autoinstrument.dotnetcore.runasuser #var.autoinstrument.dotnetcore.runasuser != null ? var.autoinstrument.dotnetcore.runasuser : null
-  autoinstrumentation_dotnetcore_image            = var.appd.autoinstrument.dotnetcore.image #var.autoinstrument.dotnetcore.image != null ? var.autoinstrument.dotnetcore.image : null
-  autoinstrumentation_dotnetcore_imagepullpolicy  = var.appd.autoinstrument.dotnetcore.imagepullpolicy #var.autoinstrument.dotnetcore.imagepullpolicy != null ? var.autoinstrument.dotnetcore.imagepullpolicy : null
-  autoinstrumentation_nodejs_runasuser            = var.appd.autoinstrument.nodejs.runasuser #var.autoinstrument.nodejs.runasuser != null ? var.autoinstrument.nodejs.runasuser : null
-  autoinstrumentation_nodejs_image                = var.appd.autoinstrument.nodejs.image #var.autoinstrument.nodejs.image != null ? var.autoinstrument.nodejs.image : null  # Note: No Latest Image Tag
-  autoinstrumentation_nodejs_imagepullpolicy      = var.appd.autoinstrument.nodejs.runasuser #var.autoinstrument.nodejs.runasuser != null ? var.autoinstrument.nodejs.runasuser : null
+  autoinstrumentation_java_runasuser              = try(var.appd.autoinstrument.java.runasuser, null)#var.autoinstrument.java.runasuser != null ? var.autoinstrument.java.runasuser : null
+  autoinstrumentation_java_image                  = try(var.appd.autoinstrument.java.image, null)#var.autoinstrument.java.image != null ? var.autoinstrument.java.image : null
+  autoinstrumentation_java_imagepullpolicy        = try(var.appd.autoinstrument.java.imagepullpolicy, null)#var.autoinstrument.java.imagepullpolicy != null ? var.autoinstrument.java.imagepullpolicy : null
+  autoinstrumentation_dotnetcore_runasuser        = try(var.appd.autoinstrument.dotnetcore.runasuser, null)#var.autoinstrument.dotnetcore.runasuser != null ? var.autoinstrument.dotnetcore.runasuser : null
+  autoinstrumentation_dotnetcore_image            = try(var.appd.autoinstrument.dotnetcore.image, null)#var.autoinstrument.dotnetcore.image != null ? var.autoinstrument.dotnetcore.image : null
+  autoinstrumentation_dotnetcore_imagepullpolicy  = try(var.appd.autoinstrument.dotnetcore.imagepullpolicy, null)#var.autoinstrument.dotnetcore.imagepullpolicy != null ? var.autoinstrument.dotnetcore.imagepullpolicy : null
+  autoinstrumentation_nodejs_runasuser            = try(var.appd.autoinstrument.nodejs.runasuser, null)#var.autoinstrument.nodejs.runasuser != null ? var.autoinstrument.nodejs.runasuser : null
+  autoinstrumentation_nodejs_image                = try(var.appd.autoinstrument.nodejs.image, null)#var.autoinstrument.nodejs.image != null ? var.autoinstrument.nodejs.image : null  # Note: No Latest Image Tag
+  autoinstrumentation_nodejs_imagepullpolicy      = try(var.appd.autoinstrument.nodejs.runasuser,null)#var.autoinstrument.nodejs.runasuser != null ? var.autoinstrument.nodejs.runasuser : null
 
   ### Image Information ###
   imageinfo_clusteragent_image    = try(var.appd.imageinfo.clusteragent.image, null)#var.imageinfo.clusteragent.image != null ? var.imageinfo.clusteragent.image : null
