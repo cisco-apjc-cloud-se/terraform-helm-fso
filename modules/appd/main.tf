@@ -151,8 +151,9 @@ agentServiceAccount: appdynamics-cluster-agent
 operatorServiceAccount: appdynamics-operator
 infravizServiceAccount: appdynamics-infraviz
 
-install:
-  metrics-server:  ${var.install_metrics_server}
+# Disabled - Now uses direct helm chart
+# install:
+#   metrics-server:  ${var.install_metrics_server}
 
 EOF
    ]
