@@ -61,7 +61,7 @@ resource "helm_release" "metrics-server" {
 
   set {
     name = "extraArgs.kubelet-preferred-address-types"
-    value = "InternalIP,ExternalIP,Hostname"
+    value = "InternalIP\,ExternalIP\,Hostname"
   }
 
 }
