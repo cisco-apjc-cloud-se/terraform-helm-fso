@@ -102,15 +102,15 @@ module "appd" {
   autoinstrumentation_nodejs_imagepullpolicy      = var.appd.autoinstrument.nodejs.runasuser #var.autoinstrument.nodejs.runasuser != null ? var.autoinstrument.nodejs.runasuser : null
 
   ### Image Information ###
-  imageinfo_clusteragent_image    = var.appd.imageinfo.clusteragent.image #var.imageinfo.clusteragent.image != null ? var.imageinfo.clusteragent.image : null
-  imageinfo_clusteragent_tag      = var.appd.imageinfo.clusteragent.tag #var.imageinfo.clusteragent.tag != null ? var.imageinfo.clusteragent.tag : null
-  imageinfo_operator_image        = var.appd.imageinfo.operator.image #var.imageinfo.operator.image != null ? var.imageinfo.operator.image : null
-  imageinfo_operator_tag          = var.appd.imageinfo.operator.tag #var.imageinfo.operator.tag != null ? var.imageinfo.operator.tag : null
-  imageinfo_imagepullpolicy       = var.appd.imageinfo.imagepullpolicy #var.imageinfo.imagepullpolicy != null ? var.imageinfo.imagepullpolicy : null
-  imageinfo_machineagent_image    = var.appd.imageinfo.machineagent.image #var.imageinfo.machineagent.image != null ? var.imageinfo.machineagent.image : null
-  imageinfo_machineagent_tag      = var.appd.imageinfo.machineagent.tag #var.imageinfo.machineagent.tag != null ?  var.imageinfo.machineagent.tag : null
-  imageinfo_machineagentwin_image = var.appd.imageinfo.machineagentwin.image #var.imageinfo.machineagentwin.image != null ? var.imageinfo.machineagentwin.image : null
-  imageinfo_machineagentwin_tag   = var.appd.imageinfo.machineagentwin.tag #var.imageinfo.machineagentwin.tag != null ? var.imageinfo.machineagentwin.tag : null
-  imageinfo_netviz_image          = var.appd.imageinfo.netviz.image #var.imageinfo.netviz.image != null ? var.imageinfo.netviz.image : null
-  imageinfo_netviz_tag            = var.appd.imageinfo.netviz.tag #var.imageinfo.netviz.tag != null ? var.imageinfo.netviz.tag : null
+  imageinfo_clusteragent_image    = try(var.appd.imageinfo.clusteragent.image, null)#var.imageinfo.clusteragent.image != null ? var.imageinfo.clusteragent.image : null
+  imageinfo_clusteragent_tag      = try(var.appd.imageinfo.clusteragent.tag, null)#var.imageinfo.clusteragent.tag != null ? var.imageinfo.clusteragent.tag : null
+  imageinfo_operator_image        = try(var.appd.imageinfo.operator.image, null)#var.imageinfo.operator.image != null ? var.imageinfo.operator.image : null
+  imageinfo_operator_tag          = try(var.appd.imageinfo.operator.tag, null)#var.imageinfo.operator.tag != null ? var.imageinfo.operator.tag : null
+  imageinfo_imagepullpolicy       = try(var.appd.imageinfo.imagepullpolicy, null)#var.imageinfo.imagepullpolicy != null ? var.imageinfo.imagepullpolicy : null
+  imageinfo_machineagent_image    = try(var.appd.imageinfo.machineagent.image, null)#var.imageinfo.machineagent.image != null ? var.imageinfo.machineagent.image : null
+  imageinfo_machineagent_tag      = try(var.appd.imageinfo.machineagent.tag, null)#var.imageinfo.machineagent.tag != null ?  var.imageinfo.machineagent.tag : null
+  imageinfo_machineagentwin_image = try(var.appd.imageinfo.machineagentwin.image, null)#var.imageinfo.machineagentwin.image != null ? var.imageinfo.machineagentwin.image : null
+  imageinfo_machineagentwin_tag   = try(var.appd.imageinfo.machineagentwin.tag, null)#var.imageinfo.machineagentwin.tag != null ? var.imageinfo.machineagentwin.tag : null
+  imageinfo_netviz_image          = try(var.appd.imageinfo.netviz.image, null)#var.imageinfo.netviz.image != null ? var.imageinfo.netviz.image : null
+  imageinfo_netviz_tag            = try(var.appd.imageinfo.netviz.tag, null)#var.imageinfo.netviz.tag != null ? var.imageinfo.netviz.tag : null
 }
