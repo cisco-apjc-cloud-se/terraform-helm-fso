@@ -25,6 +25,47 @@ resource "kubernetes_namespace" "appd" {
 
 ### Helm ###
 
+## Add Metrics Server Release ##
+# - Required for AppD Cluster Agent
+
+resource "helm_release" "metrics-server" {
+  count = var.install_metrics_server == true ? 1 : 0
+
+  name = "appd-metrics-server"
+  namespace   = kubernetes_namespace.appd.metadata[0].name
+  repository = "https://kubernetes-sigs.github.io/metrics-server/"
+  # repository = "https://charts.bitnami.com/bitnami"
+  chart = "metrics-server"
+
+#   values = [<<EOF
+#
+#     defaultArgs:
+#       - --cert-dir=/tmp
+#       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+#       - --kubelet-use-node-status-port
+#       - --metric-resolution=15s
+#       - --kubelet-insecure-tls
+#
+# EOF
+#   ]
+
+  set {
+    name = "apiService.create"
+    value = true
+  }
+
+  set {
+    name = "extraArgs.kubelet-insecure-tls"
+    value = true
+  }
+
+  set {
+    name = "extraArgs.kubelet-preferred-address-types"
+    value = "InternalIP,ExternalIP,Hostname"
+  }
+
+}
+
 ## AppDynamics Kubernetes Operator ##
 resource "helm_release" "appd-operator" {
    namespace   = kubernetes_namespace.appd.metadata[0].name
@@ -98,7 +139,6 @@ imageInfo:
  machineAgentWinTag: ${var.imageinfo_machineagentwin_tag}
  netVizImage: ${var.imageinfo_netviz_image}
  netvizTag: ${var.imageinfo_netviz_tag}
-
 controllerInfo:
  url: ${var.account_url == null ? format("https://%s.saas.appdynamics.com:443", var.account_name) : var.account_url}
  account: ${var.account_name}

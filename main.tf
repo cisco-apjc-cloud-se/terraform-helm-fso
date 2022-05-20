@@ -71,7 +71,7 @@ module "appd" {
   ### General Settings ###
   install_cluster_agent   = var.appd.install_metrics_server
   install_machine_agents  = var.appd.install_machine_agents
-  install_metrics_server  = var.appd.install_metrics_server
+  install_metrics_server  = var.appd.install_metrics_server  ## NOTE: Separate Helm Release used, not part of AppD 
 
   ### InfraViz ###
   infraviz_enable_container_hostid  = var.appd.infraviz.enable_container_hostid
