@@ -69,16 +69,16 @@ module "appd" {
   global_account_name = var.appd.account.global_account
 
   ### General Settings ###
-  install_cluster_agent   = var.appd.install_metrics_server
-  install_machine_agents  = var.appd.install_machine_agents
-  install_metrics_server  = var.appd.install_metrics_server
+  install_cluster_agent   = try(var.appd.install_metrics_server, null)
+  install_machine_agents  = try(var.appd.install_machine_agents, null)
+  install_metrics_server  = try(var.appd.install_metrics_server, null)
 
   ### InfraViz ###
-  infraviz_enable_container_hostid  = var.appd.infraviz.enable_container_hostid
-  infraviz_enable_dockerviz         = var.appd.infraviz.enable_dockerviz
-  infraviz_enable_serverviz         = var.appd.infraviz.enable_serverviz
-  infraviz_enable_masters           = var.appd.infraviz.enable_masters
-  infraviz_stdout_logging           = var.appd.infraviz.stdout_logging
+  infraviz_enable_container_hostid  = try(var.appd.infraviz.enable_container_hostid, null)
+  infraviz_enable_dockerviz         = try(var.appd.infraviz.enable_dockerviz, null)
+  infraviz_enable_serverviz         = try(var.appd.infraviz.enable_serverviz, null)
+  infraviz_enable_masters           = try(var.appd.infraviz.enable_masters, null)
+  infraviz_stdout_logging           = try(var.appd.infraviz.stdout_logging, null) # test
 
   ### NetViz ###
   netviz_enabled = try(var.appd.netviz.enabled, null) #var.netiz != null ? var.netviz.enabled : null
