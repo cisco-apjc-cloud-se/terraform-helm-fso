@@ -66,7 +66,7 @@ module "appd" {
   account_key         = var.appd.account.key
   account_username    = var.appd.account.username
   account_password    = var.appd.account.password
-  global_account_name = try(var.appd.account.global_account, "")
+  global_account_name = var.appd.account.global_account
 
   ### General Settings ###
   install_cluster_agent   = try(var.appd.install_metrics_server, null)

@@ -105,7 +105,7 @@ controllerInfo:
  username: ${var.account_username}
  password: ${var.account_password}
  accessKey: ${var.account_key}
- globalAccount: ${var.global_account_name}   # To be provided when using machineAgent Window Image
+ globalAccount: ${var.global_account_name == null ? "" : var.global_account_name }   # To be provided when using machineAgent Window Image
 
 agentServiceAccount: appdynamics-cluster-agent
 operatorServiceAccount: appdynamics-operator
