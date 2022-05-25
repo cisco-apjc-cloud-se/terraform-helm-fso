@@ -35,13 +35,12 @@ terraform {
 # }
 
 module "thousandeyes" {
-  source = ./modules/thousandeyes"
+  source = "./modules/thousandeyes"
   count = var.thousandeyes.enabled == true ? 1 : 0
 
   ### HTTP Tests ###
   http_tests = var.thousandeyes.http_tests
 }
-
 
 module "iwo" {
   source = "./modules/iwo"
