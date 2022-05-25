@@ -34,6 +34,15 @@ terraform {
 #   }
 # }
 
+module "thousandeyes" {
+  source = ./modules/thousandeyes"
+  count = var.thousandeyes.enabled == true ? 1 : 0
+
+  ### HTTP Tests ###
+  http_tests = var.thousandeyes.http_tests
+}
+
+
 module "iwo" {
   source = "./modules/iwo"
   count = var.iwo.enabled == true ? 1 : 0
@@ -71,7 +80,7 @@ module "appd" {
   ### General Settings ###
   install_cluster_agent   = var.appd.install_metrics_server
   install_machine_agents  = var.appd.install_machine_agents
-  install_metrics_server  = var.appd.install_metrics_server  ## NOTE: Separate Helm Release used, not part of AppD 
+  install_metrics_server  = var.appd.install_metrics_server  ## NOTE: Separate Helm Release used, not part of AppD
 
   ### InfraViz ###
   infraviz_enable_container_hostid  = var.appd.infraviz.enable_container_hostid

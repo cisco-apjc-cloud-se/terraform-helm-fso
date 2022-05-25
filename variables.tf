@@ -3,6 +3,26 @@
 #   type = string
 # }
 
+## ThousandEyes Tests Variables ##
+variable "thousandeyes" {
+  type = object({
+    enabled = bool
+    http_tests = map(object({
+      name                    = string
+      interval                = number
+      url                     = string
+      content_regex           = string
+      network_measurements    = bool # 1
+      mtu_measurements        = bool # 1
+      bandwidth_measurements  = bool # 0
+      bgp_measurements        = bool # 1
+      use_public_bgp          = bool # 1
+      num_path_traces         = optional(number) # 0
+      agents                  = list(string)
+      }))
+    })
+}
+
 ## IWO Collector Variables ##
 variable "iwo" {
   type = object({
@@ -16,6 +36,7 @@ variable "iwo" {
     })
 }
 
+## AppD Agent Variables ##
 variable "appd" {
   type = object({
     enabled = bool
