@@ -6,9 +6,9 @@ terraform {
     kubernetes = {
       source = "hashicorp/kubernetes"
     }
-    thousandeyes = {
-      source = "william20111/thousandeyes"
-    }
+    # thousandeyes = {
+    #   source = "william20111/thousandeyes"
+    # }
   }
   experiments = [module_variable_optional_attrs]
 }
@@ -36,7 +36,7 @@ terraform {
 #     client_key             = base64decode(local.kube_config.users[0].user.client-key-data)
 #   }
 # }
-# 
+#
 # module "thousandeyes" {
 #   source = "./modules/thousandeyes"
 #   count = var.thousandeyes.enabled == true ? 1 : 0
