@@ -17,14 +17,3 @@ variable "http_tests2" {
     agents                  = list(string)
   }))
 }
-
-variable "agent_list" {
-  type  = list(string)
-}
-
-variable "http_tests" {
-  type = map(object({
-    name = string
-    url = string
-  }))
-}
