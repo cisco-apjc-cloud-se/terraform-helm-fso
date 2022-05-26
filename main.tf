@@ -36,14 +36,14 @@ terraform {
 #     client_key             = base64decode(local.kube_config.users[0].user.client-key-data)
 #   }
 # }
-
-module "thousandeyes" {
-  source = "./modules/thousandeyes"
-  count = var.thousandeyes.enabled == true ? 1 : 0
-
-  ### HTTP Tests ###
-  http_tests = var.thousandeyes.http_tests
-}
+# 
+# module "thousandeyes" {
+#   source = "./modules/thousandeyes"
+#   count = var.thousandeyes.enabled == true ? 1 : 0
+#
+#   ### HTTP Tests ###
+#   http_tests = var.thousandeyes.http_tests
+# }
 
 module "iwo" {
   source = "./modules/iwo"
