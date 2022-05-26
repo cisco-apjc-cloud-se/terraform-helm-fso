@@ -2,7 +2,7 @@
 #   type  = list(string)
 # }
 
-variable "http_tests2" {
+variable "http_tests" {
   type = map(object({
     name                    = string
     interval                = number
