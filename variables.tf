@@ -7,7 +7,7 @@
 variable "thousandeyes" {
   type = object({
     enabled = bool
-    http_tests2 = map(object({
+    http_tests = map(object({
       name                    = string
       interval                = number
       url                     = string
