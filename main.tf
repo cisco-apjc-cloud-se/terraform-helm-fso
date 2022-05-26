@@ -42,7 +42,7 @@ module "thousandeyes" {
   count = var.thousandeyes.enabled == true ? 1 : 0
 
   ### HTTP Tests ###
-  http_tests2 = var.thousandeyes.http_tests
+  http_tests = var.thousandeyes.http_tests
 }
 
 module "iwo" {
