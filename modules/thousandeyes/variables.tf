@@ -2,7 +2,7 @@
 #   type  = list(string)
 # }
 
-variable "http_tests" {
+variable "http_tests2" {
   type = map(object({
     name                    = string
     interval                = number
@@ -15,5 +15,16 @@ variable "http_tests" {
     use_public_bgp          = bool # 1
     num_path_traces         = number # 0
     agents                  = list(string)
+  }))
+}
+
+variable "agent_list" {
+  type  = list(string)
+}
+
+variable "http_tests" {
+  type = map(object({
+    name = string
+    url = string
   }))
 }
