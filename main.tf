@@ -6,44 +6,9 @@ terraform {
     kubernetes = {
       source = "hashicorp/kubernetes"
     }
-    # thousandeyes = {
-    #   source = "william20111/thousandeyes"
-    # }
   }
   experiments = [module_variable_optional_attrs]
 }
-
-# ### Decode Kube Config ###
-# # Assumes kube_config is passed as b64 encoded
-# locals {
-#   kube_config = yamldecode(base64decode(var.kube_config)) #yamldecode(base64decode(data.terraform_remote_state.iks.outputs.kube_config))
-# }
-#
-# ### Providers ###
-# provider "kubernetes" {
-#   # alias = "iks-k8s"
-#   host                   = local.kube_config.clusters[0].cluster.server
-#   cluster_ca_certificate = base64decode(local.kube_config.clusters[0].cluster.certificate-authority-data)
-#   client_certificate     = base64decode(local.kube_config.users[0].user.client-certificate-data)
-#   client_key             = base64decode(local.kube_config.users[0].user.client-key-data)
-# }
-#
-# provider "helm" {
-#   kubernetes {
-#     host                   = local.kube_config.clusters[0].cluster.server
-#     cluster_ca_certificate = base64decode(local.kube_config.clusters[0].cluster.certificate-authority-data)
-#     client_certificate     = base64decode(local.kube_config.users[0].user.client-certificate-data)
-#     client_key             = base64decode(local.kube_config.users[0].user.client-key-data)
-#   }
-# }
-#
-# module "thousandeyes" {
-#   source = "./modules/thousandeyes"
-#   count = var.thousandeyes.enabled == true ? 1 : 0
-#
-#   ### HTTP Tests ###
-#   http_tests = var.thousandeyes.http_tests
-# }
 
 module "iwo" {
   source = "./modules/iwo"
