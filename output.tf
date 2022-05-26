@@ -1,3 +1,3 @@
 output "combined_agents" {
-  value = module.thousandeyes.combined_agents
+  value = try(module.thousandeyes[0].combined_agents, "")
 }
