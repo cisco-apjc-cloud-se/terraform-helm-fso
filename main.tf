@@ -6,6 +6,9 @@ terraform {
     kubernetes = {
       source = "hashicorp/kubernetes"
     }
+    thousandeyes = {
+      source = "william20111/thousandeyes"
+    }
   }
   experiments = [module_variable_optional_attrs]
 }

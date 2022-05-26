@@ -13,10 +13,10 @@ locals {
   combined_agents = distinct(flatten([for test in var.http_tests : test.agents ]))
 }
 
-# data "thousandeyes_agent" "agents" {
-#   for_each = toset(local.combined_agents)
-#   agent_name  = each.key
-# }
+data "thousandeyes_agent" "agents" {
+  for_each = toset(local.combined_agents)
+  agent_name  = each.key
+}
 
 # resource "thousandeyes_http_server" "http_tests" {
 #   for_each = var.http_tests
