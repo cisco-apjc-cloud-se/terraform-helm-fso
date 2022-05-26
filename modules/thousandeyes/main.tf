@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     thousandeyes = {
-      source = "william20111/thousandeyes"
-      # source = "cgascoig/cgascoig/thousandeyes"   # this is a custom build of the william20111/thousandeyes provider with a bug fixed (see https://github.com/william20111/terraform-provider-thousandeyes/issues/59)
+      # source = "william20111/thousandeyes"
+      source = "cgascoig/cgascoig/thousandeyes"   # this is a custom build of the william20111/thousandeyes provider with a bug fixed (see https://github.com/william20111/terraform-provider-thousandeyes/issues/59)
       # version = "0.6.0"
     }
   }
