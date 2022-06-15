@@ -50,14 +50,14 @@ module "appd" {
   install_metrics_server  = var.appd.install_metrics_server  ## NOTE: Separate Helm Release used, not part of AppD
 
   ### InfraViz ###
-  infraviz_enable_container_hostid  = var.appd.infraviz.enable_container_hostid
-  infraviz_enable_dockerviz         = var.appd.infraviz.enable_dockerviz
-  infraviz_enable_serverviz         = var.appd.infraviz.enable_serverviz
-  infraviz_enable_masters           = var.appd.infraviz.enable_masters
-  infraviz_stdout_logging           = var.appd.infraviz.stdout_logging # test
+  infraviz_enable_container_hostid  = try(var.appd.infraviz.enable_container_hostid, null)
+  infraviz_enable_dockerviz         = try(var.appd.infraviz.enable_dockerviz, null)
+  infraviz_enable_serverviz         = try(var.appd.infraviz.enable_serverviz, null)
+  infraviz_enable_masters           = try(var.appd.infraviz.enable_masters, null)
+  infraviz_stdout_logging           = try(var.appd.infraviz.stdout_logging, null)
 
   ### NetViz ###
-  netviz_enabled = var.appd.netviz.enabled #var.netiz != null ? var.netviz.enabled : null
+  netviz_enabled = try(var.appd.netviz.enabled, null) #var.netiz != null ? var.netviz.enabled : null
 
   ### Cluster Agent ###
   clusteragent_montior_namespace_regex = var.appd.cluster.montior_namespace_regex #var.cluster != null ? var.cluster.montior_namespace_regex : null
