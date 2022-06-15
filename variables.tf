@@ -32,13 +32,13 @@ variable "appd" {
     install_metrics_server  = optional(bool)
     install_cluster_agent   = optional(bool)
     install_machine_agents  = optional(bool)
-    infraviz = object({
+    infraviz = optional(object({
       enable_container_hostid = optional(bool)
       enable_dockerviz        = optional(bool)
       enable_serverviz        = optional(bool)
       enable_masters          = optional(bool)
       stdout_logging          = optional(bool)
-      })
+      }))
     netviz = optional(object({
       enabled = optional(bool)
       }))
