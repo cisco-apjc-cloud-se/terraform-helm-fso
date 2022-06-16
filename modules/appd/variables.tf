@@ -109,6 +109,10 @@ variable "netviz_enabled" {
 }
 
 ### Cluster Agent ###
+variable "clusteragent_app_name" {
+  type = string
+}
+
 variable "clusteragent_montior_namespace_regex" {
   default = ".*"
   nullable = false

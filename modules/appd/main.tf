@@ -94,7 +94,7 @@ netViz:
   # netVizPort: 3892
 
 clusterAgent:
- appName: ${var.clusteragent_appname}
+ appName: ${var.clusteragent_app_name}
  nsToMonitorRegex: ${var.clusteragent_montior_namespace_regex}
 
 instrumentationConfig:
