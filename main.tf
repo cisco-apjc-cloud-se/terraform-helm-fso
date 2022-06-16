@@ -60,7 +60,8 @@ module "appd" {
   netviz_enabled = try(var.appd.netviz.enabled, null) #var.netiz != null ? var.netviz.enabled : null
 
   ### Cluster Agent ###
-  clusteragent_montior_namespace_regex = var.appd.cluster.montior_namespace_regex #var.cluster != null ? var.cluster.montior_namespace_regex : null
+  clusteragent_appname                  = try(var.appd.cluster.app_name, null)
+  clusteragent_montior_namespace_regex  = var.appd.cluster.montior_namespace_regex #var.cluster != null ? var.cluster.montior_namespace_regex : null
 
   ### Auto Instrumentation ###
   autoinstrumentation_enabled                     = var.appd.autoinstrument.enabled # var.autoinstrument != null ? var.autoinstrument.enabled : false

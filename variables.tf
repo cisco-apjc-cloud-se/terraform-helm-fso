@@ -43,6 +43,7 @@ variable "appd" {
       enabled = optional(bool)
       }))
     cluster = optional(object({
+      app_name                = optional(string)
       montior_namespace_regex = optional(string)
       }))
     autoinstrument = optional(object({
