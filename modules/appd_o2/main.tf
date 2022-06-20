@@ -19,7 +19,7 @@ locals {
     operator = {
       enabled = true
       helm = {
-        version       = "22.5.0"
+        # version       = "22.5.0"
         release_name  = "k8s"
         repository    = "https://ciscodevnet.github.io/appdynamics-charts"
         chart_name    = "o2-operator"
@@ -28,7 +28,7 @@ locals {
     monitor = {
       enabled = true
       helm = {
-        version       = "22.5.0"
+        # version       = "22.5.0"
         release_name  = "k8s"
         repository    = "https://ciscodevnet.github.io/appdynamics-charts"
         chart_name    = "o2-k8s-monitoring"
