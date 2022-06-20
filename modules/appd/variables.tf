@@ -19,11 +19,11 @@ variable "appd" {
       global_account = optional(string)
     })
     install_metrics_server  = optional(bool)
-    metrics_server = object({
-      release_name  = optional(string)
-      repository    = optional(string)
-      chart_name    = optional(string)
-      })
+    metrics_server = optional(object({
+      release_name    = optional(string)
+      repository      = optional(string)
+      chart_name      = optional(string)
+      }))
     install_cluster_agent   = optional(bool)
     install_machine_agents  = optional(bool)
     infraviz = optional(object({

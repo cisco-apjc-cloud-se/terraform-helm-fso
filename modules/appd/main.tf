@@ -114,13 +114,15 @@ resource "kubernetes_namespace" "appd" {
 ## Add Metrics Server Release ##
 # - Required for AppD Cluster Agent
 
+# NOTE: defaults() not working for setting optional values to optional objects
+
 resource "helm_release" "metrics_server" {
   count = local.appd.install_metrics_server == true ? 1 : 0
 
-  name        = local.appd.metrics_server.release_name # "appd-metrics-server"
+  name        = try(local.appd.metrics_server.release_name, null) # "appd-metrics-server"
   namespace   = kubernetes_namespace.appd.metadata[0].name
-  repository  = local.appd.metrics_server.repository # "https://kubernetes-sigs.github.io/metrics-server/"
-  chart       = local.appd.metrics_server.chart_name # "metrics-server"
+  repository  = try(local.appd.metrics_server.repository, null) # "https://kubernetes-sigs.github.io/metrics-server/"
+  chart       = try(local.appd.metrics_server.chart_name, null) # "metrics-server"
 
   values = [<<EOF
     apiService:
