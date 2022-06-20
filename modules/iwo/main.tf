@@ -7,6 +7,7 @@ terraform {
       source = "hashicorp/kubernetes"
     }
   }
+  experiments = [module_variable_optional_attrs]
 }
 
 ### Set Defaults ###
