@@ -41,7 +41,7 @@ variable "appd" {
     cluster_agent = object({
       install_service           = bool
       app_name                  = optional(string)
-      monitior_namespace_regex  = optional(string)
+      monitor_namespace_regex  = optional(string)
       autoinstrument = optional(object({
         enabled           = bool
         namespace_regex   = optional(string)
