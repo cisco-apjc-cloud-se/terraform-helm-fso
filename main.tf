@@ -102,7 +102,3 @@ module "appd" {
   # imageinfo_netviz_image          = try(var.appd.imageinfo.netviz.image, null)#var.imageinfo.netviz.image != null ? var.imageinfo.netviz.image : null
   # imageinfo_netviz_tag            = try(var.appd.imageinfo.netviz.tag, null)#var.imageinfo.netviz.tag != null ? var.imageinfo.netviz.tag : null
 }
-
-output "test" {
-  value = module.appd[0].test
-}
