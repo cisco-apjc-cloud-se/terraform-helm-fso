@@ -42,7 +42,7 @@ locals {
       }
     }
     cluster_agent = {
-      montior_namespace_regex = ".*"
+      monitor_namespace_regex = ".*"
       autoinstrument = {
         enabled = false
         namespace_regex = ""
@@ -108,9 +108,6 @@ resource "kubernetes_namespace" "appd" {
   }
 }
 
-output "test" {
-  value = local.appd
-}
 ### Helm ###
 
 ## Add Metrics Server Release ##
