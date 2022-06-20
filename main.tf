@@ -104,5 +104,5 @@ module "appd" {
 }
 
 output "test" {
-  value = module.appd.test
+  value = module.appd[0].test
 }
