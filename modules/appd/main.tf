@@ -12,7 +12,7 @@ terraform {
 
 ### Set Defaults ###
 locals {
-  appd = defaults( var.appd, {
+  appd = defaults(var.appd, {
     use_o2_operator = false
     kubernetes = {
       namespace     = "appd"
@@ -114,13 +114,13 @@ resource "kubernetes_namespace" "appd" {
 ## Add Metrics Server Release ##
 # - Required for AppD Cluster Agent
 
-resource "helm_release" "metrics-server" {
+resource "helm_release" "metrics_server" {
   count = local.appd.install_metrics_server == true ? 1 : 0
 
-  name = local.appd.metrics_server.release_name # "appd-metrics-server"
+  name        = local.appd.metrics_server.release_name # "appd-metrics-server"
   namespace   = kubernetes_namespace.appd.metadata[0].name
-  repository = local.appd.metrics_server.repository # "https://kubernetes-sigs.github.io/metrics-server/"
-  chart = local.appd.metrics_server.chart_name # "metrics-server"
+  repository  = local.appd.metrics_server.repository # "https://kubernetes-sigs.github.io/metrics-server/"
+  chart       = local.appd.metrics_server.chart_name # "metrics-server"
 
   values = [<<EOF
     apiService:
