@@ -1,5 +1,5 @@
 ## AppD O2 Operator Variables ##
-variable "appd_o2" {
+variable "appd" {
   type = object({
     enabled = bool
     operator = object({

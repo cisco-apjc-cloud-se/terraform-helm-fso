@@ -12,7 +12,7 @@ terraform {
 
 ### Set Defaults ###
 locals {
-  appd = defaults(var.appd_o2,{
+  appd = defaults(var.appd,{
     # kubernetes = {
     #   namespace = "appd"
     # }
