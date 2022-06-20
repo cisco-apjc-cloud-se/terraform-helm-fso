@@ -116,7 +116,7 @@ resource "kubernetes_namespace" "appd" {
 # NOTE: defaults() not working for setting optional values to optional objects
 
 resource "helm_release" "metrics_server" {
-  count = local.appd.install_metrics_server == true ? 1 : 0
+  count = local.appd.metrics_server.install_service == true ? 1 : 0
 
   name        = try(local.appd.metrics_server.release_name, "appd-metrics-server") # "appd-metrics-server"
   namespace   = kubernetes_namespace.appd.metadata[0].name
