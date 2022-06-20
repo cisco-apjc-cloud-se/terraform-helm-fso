@@ -2,6 +2,9 @@
 variable "appd" {
   type = object({
     enabled = bool
+    kubernetes = object({
+      namespace = string
+      })
     operator = object({
       enabled = bool
       helm = optional(object({
