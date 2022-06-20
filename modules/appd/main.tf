@@ -13,85 +13,85 @@ terraform {
 ### Set Defaults ###
 locals {
   appd = defaults(var.appd,{
-    use_o2_operator = false
-    kubernetes = {
-      namespace     = "appd"
-      release_name  = "appd-operator"
-      repository    = "https://ciscodevnet.github.io/appdynamics-charts"
-      chart_name    = "cluster-agent"
-    }
-    account = {
-      global_account = ""
-    }
-    install_metrics_server = false
-    metrics_server = {
-      release_name  = "appd-metrics-server"
-      repository    = "https://kubernetes-sigs.github.io/metrics-server/"
-      chart_name    = "metrics-server"
-    }
-    install_cluster_agent = true
-    install_machine_agents = false
-    infraviz = {
-      enable_container_hostid = true
-      enable_dockerviz = true
-      enable_serverviz = true
-      enable_masters = false
-      stdout_logging = false
-    }
-    netviz = {
-      enabled = false
-      port = 3892
-    }
-    cluster = {
-      montior_namespace_regex = ".*"
-    }
-    autoinstrument = {
-      enabled = false
-      namespace_regex = ""
-      default_appname = ""
-      appname_strategy = "manual"
-      java = {
-        enabled = false
-        runasuser = 10001
-        image = "docker.io/appdynamics/java-agent:latest"
-        imagepullpolicy = "Always"
-      }
-      dotnetcore = {
-        enabled = false
-        runasuser = 10001
-        image = "docker.io/appdynamics/dotnet-core-agent:latest"
-        imagepullpolicy = "Always"
-      }
-      nodejs = {
-        enabled = false
-        runasuser = 10001
-        image = "docker.io/appdynamics/nodejs-agent:21.9.0-16-alpine"  ## No Latest Image Tag
-        imagepullpolicy = "Always"
-      }
-    }
-    imageinfo = {
-      imagepullpolicy = "Always"
-      clusteragent = {
-        image = "docker.io/appdynamics/cluster-agent"
-        tag = "latest"
-      }
-      operator = {
-        image = "docker.io/appdynamics/cluster-agent-operator"
-        tag = "latest"
-      }
-      machineagent = {
-        image = "docker.io/appdynamics/machine-agent"
-        tag = "latest"
-      }
-      machineagentwin = {
-        image = "docker.io/appdynamics/machine-agent-analytics"
-        tag = "win-latest"
-      }
-      netviz = {
-        image = "docker.io/appdynamics/machine-agent-netviz"
-        tag = "latest"
-      }
-    }
+    # use_o2_operator = false
+    # kubernetes = {
+    #   namespace     = "appd"
+    #   release_name  = "appd-operator"
+    #   repository    = "https://ciscodevnet.github.io/appdynamics-charts"
+    #   chart_name    = "cluster-agent"
+    # }
+    # account = {
+    #   global_account = ""
+    # }
+    # install_metrics_server = false
+    # metrics_server = {
+    #   release_name  = "appd-metrics-server"
+    #   repository    = "https://kubernetes-sigs.github.io/metrics-server/"
+    #   chart_name    = "metrics-server"
+    # }
+    # install_cluster_agent = true
+    # install_machine_agents = false
+    # infraviz = {
+    #   enable_container_hostid = true
+    #   enable_dockerviz = true
+    #   enable_serverviz = true
+    #   enable_masters = false
+    #   stdout_logging = false
+    # }
+    # netviz = {
+    #   enabled = false
+    #   port = 3892
+    # }
+    # cluster = {
+    #   montior_namespace_regex = ".*"
+    # }
+    # autoinstrument = {
+    #   enabled = false
+    #   namespace_regex = ""
+    #   default_appname = ""
+    #   appname_strategy = "manual"
+    #   java = {
+    #     enabled = false
+    #     runasuser = 10001
+    #     image = "docker.io/appdynamics/java-agent:latest"
+    #     imagepullpolicy = "Always"
+    #   }
+    #   dotnetcore = {
+    #     enabled = false
+    #     runasuser = 10001
+    #     image = "docker.io/appdynamics/dotnet-core-agent:latest"
+    #     imagepullpolicy = "Always"
+    #   }
+    #   nodejs = {
+    #     enabled = false
+    #     runasuser = 10001
+    #     image = "docker.io/appdynamics/nodejs-agent:21.9.0-16-alpine"  ## No Latest Image Tag
+    #     imagepullpolicy = "Always"
+    #   }
+    # }
+    # imageinfo = {
+    #   imagepullpolicy = "Always"
+    #   clusteragent = {
+    #     image = "docker.io/appdynamics/cluster-agent"
+    #     tag = "latest"
+    #   }
+    #   operator = {
+    #     image = "docker.io/appdynamics/cluster-agent-operator"
+    #     tag = "latest"
+    #   }
+    #   machineagent = {
+    #     image = "docker.io/appdynamics/machine-agent"
+    #     tag = "latest"
+    #   }
+    #   machineagentwin = {
+    #     image = "docker.io/appdynamics/machine-agent-analytics"
+    #     tag = "win-latest"
+    #   }
+    #   netviz = {
+    #     image = "docker.io/appdynamics/machine-agent-netviz"
+    #     tag = "latest"
+    #   }
+    # }
   })
 }
 
@@ -109,6 +109,9 @@ resource "kubernetes_namespace" "appd" {
   }
 }
 
+output "test" {
+  value = local.appd
+}
 ### Helm ###
 
 ## Add Metrics Server Release ##
