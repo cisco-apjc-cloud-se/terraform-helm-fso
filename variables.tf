@@ -16,47 +16,96 @@ variable "iwo" {
 variable "appd" {
   type = object({
     enabled = bool
-    use_o2_operator = optional(bool)
-    kubernetes = object({
-      namespace = string
-      release_name  = optional(string)
-      repository    = optional(string)
-      chart_name    = optional(string)
+    o2_operator = object({
+      enabled = bool
+      kubernetes = object({
+        namespace = string
+        })
+      operator = object({
+        enabled = bool
+        helm = optional(object({
+          version       = optional(string)
+          release_name  = optional(string)
+          repository    = optional(string)
+          chart_name    = optional(string)
+          }))
+        })
+      monitor = object({
+        enabled = bool
+        helm = optional(object({
+          version       = optional(string)
+          release_name  = optional(string)
+          repository    = optional(string)
+          chart_name    = optional(string)
+          }))
+        })
       })
-    account = object({
-      url            = optional(string)
-      name           = string
-      key            = string
-      otel_api_key   = optional(string)
-      username       = optional(string)
-      password       = optional(string)
-      global_account = optional(string)
-    })
-    metrics_server = object({
-      install_service = bool
-      release_name    = optional(string)
-      repository      = optional(string)
-      chart_name      = optional(string)
+    legacy = object({
+      enabled = bool
+      kubernetes = object({
+        namespace = string
+        release_name  = optional(string)
+        repository    = optional(string)
+        chart_name    = optional(string)
+        imageinfo = optional(object({
+          imagepullpolicy = optional(string)
+          clusteragent = optional(object({
+            image = optional(string)
+            tag   = optional(string)
+            }))
+          operator = optional(object({
+            image = optional(string)
+            tag   = optional(string)
+            }))
+          machineagent = optional(object({
+            image = optional(string)
+            tag   = optional(string)
+            }))
+          machineagentwin = optional(object({
+            image = optional(string)
+            tag   = optional(string)
+            }))
+          netviz = optional(object({
+            image = optional(string)
+            tag   = optional(string)
+            }))
+          }))
+        })
+      account = object({
+        url            = optional(string)
+        name           = string
+        key            = string
+        otel_api_key   = optional(string)
+        username       = optional(string)
+        password       = optional(string)
+        global_account = optional(string)
       })
-    machine_agent = object({
-      install_service = bool
-      infraviz = optional(object({
-        enable_container_hostid = optional(bool)
-        enable_dockerviz        = optional(bool)
-        enable_serverviz        = optional(bool)
-        enable_masters          = optional(bool)
-        stdout_logging          = optional(bool)
-        }))
-      netviz = optional(object({
-        enabled = optional(bool)
-        port    = optional(number)
-        }))
-      })
-    cluster_agent = object({
-      install_service           = bool
-      app_name                  = optional(string)
-      monitor_namespace_regex  = optional(string)
-      autoinstrument = optional(object({
+      metrics_server = object({
+        install_service = bool
+        release_name    = optional(string)
+        repository      = optional(string)
+        chart_name      = optional(string)
+        })
+      machine_agent = object({
+        install_service = bool
+        infraviz = optional(object({
+          enable_container_hostid = optional(bool)
+          enable_dockerviz        = optional(bool)
+          enable_serverviz        = optional(bool)
+          enable_masters          = optional(bool)
+          stdout_logging          = optional(bool)
+          }))
+        netviz = optional(object({
+          enabled = optional(bool)
+          port    = optional(number)
+          }))
+        })
+      cluster_agent = object({
+        install_service           = bool
+        app_name                  = optional(string)
+        monitor_namespace_regex  = optional(string)
+        })
+      autoinstrument = object({
         enabled           = bool
         namespace_regex   = optional(string)
         default_appname   = optional(string)
@@ -79,30 +128,7 @@ variable "appd" {
           image           = optional(string)
           imagepullpolicy = optional(string)
           }))
-        }))
-      imageinfo = optional(object({
-        imagepullpolicy = optional(string)
-        clusteragent = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        operator = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        machineagent = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        machineagentwin = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        netviz = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        }))
+        })
       })
     })
 }

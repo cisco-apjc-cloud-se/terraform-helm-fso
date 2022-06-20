@@ -8,6 +8,29 @@ variable "appd" {
       release_name  = optional(string)
       repository    = optional(string)
       chart_name    = optional(string)
+      imageinfo = optional(object({
+        imagepullpolicy = optional(string)
+        clusteragent = optional(object({
+          image = optional(string)
+          tag   = optional(string)
+          }))
+        operator = optional(object({
+          image = optional(string)
+          tag   = optional(string)
+          }))
+        machineagent = optional(object({
+          image = optional(string)
+          tag   = optional(string)
+          }))
+        machineagentwin = optional(object({
+          image = optional(string)
+          tag   = optional(string)
+          }))
+        netviz = optional(object({
+          image = optional(string)
+          tag   = optional(string)
+          }))
+        }))
       })
     account = object({
       url            = optional(string)
@@ -42,52 +65,29 @@ variable "appd" {
       install_service           = bool
       app_name                  = optional(string)
       monitor_namespace_regex  = optional(string)
-      autoinstrument = optional(object({
-        enabled           = bool
-        namespace_regex   = optional(string)
-        default_appname   = optional(string)
-        appname_strategy  = optional(string)
-        java = optional(object({
-          enabled         = optional(bool)
-          runasuser       = optional(number)
-          image           = optional(string)
-          imagepullpolicy = optional(string)
-          }))
-        dotnetcore = optional(object({
-          enabled         = optional(bool)
-          runasuser       = optional(number)
-          image           = optional(string)
-          imagepullpolicy = optional(string)
-          }))
-        nodejs = optional(object({
-          enabled         = optional(bool)
-          runasuser       = optional(number)
-          image           = optional(string)
-          imagepullpolicy = optional(string)
-          }))
-        }))
-      imageinfo = optional(object({
+      })
+    autoinstrument = object({
+      enabled           = bool
+      namespace_regex   = optional(string)
+      default_appname   = optional(string)
+      appname_strategy  = optional(string)
+      java = optional(object({
+        enabled         = optional(bool)
+        runasuser       = optional(number)
+        image           = optional(string)
         imagepullpolicy = optional(string)
-        clusteragent = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        operator = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        machineagent = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        machineagentwin = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        netviz = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
+        }))
+      dotnetcore = optional(object({
+        enabled         = optional(bool)
+        runasuser       = optional(number)
+        image           = optional(string)
+        imagepullpolicy = optional(string)
+        }))
+      nodejs = optional(object({
+        enabled         = optional(bool)
+        runasuser       = optional(number)
+        image           = optional(string)
+        imagepullpolicy = optional(string)
         }))
       })
     })
