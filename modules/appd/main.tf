@@ -95,10 +95,6 @@ locals {
   })
 }
 
-output "test" {
-  value = local.appd
-}
-
 # ### Kubernetes  ###
 #
 # resource "kubernetes_namespace" "appd" {
