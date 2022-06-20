@@ -21,7 +21,7 @@ locals {
       chart_name    = "cluster-agent"
     }
     account = {
-      global_account_name = ""
+      global_account = ""
     }
     install_metrics_server = false
     metrics_server = {
