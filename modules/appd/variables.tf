@@ -4,9 +4,10 @@ variable "appd" {
     enabled = bool
     use_o2_operator = optional(bool)
     kubernetes = object({
-      namespace = string
-      repository = optional(string)
-      chart_name = optional(string)
+      namespace     = string
+      release_name  = optional(string)
+      repository    = optional(string)
+      chart_name    = optional(string)
       })
     account = object({
       url            = optional(string)
@@ -18,6 +19,11 @@ variable "appd" {
       global_account = optional(string)
     })
     install_metrics_server  = optional(bool)
+    metrics_server = optional(object({
+      release_name  = optional(string)
+      repository    = optional(string)
+      chart_name    = optional(string)
+      }))
     install_cluster_agent   = optional(bool)
     install_machine_agents  = optional(bool)
     infraviz = optional(object({

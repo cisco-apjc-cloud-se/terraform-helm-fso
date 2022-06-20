@@ -5,6 +5,7 @@ variable "iwo" {
     namespace               = string
     cluster_name            = string
     chart_url               = string
+    release_name            = optional(string)
     server_version          = optional(string)
     collector_image_version = optional(string)
     dc_image_version        = optional(string)
@@ -17,9 +18,10 @@ variable "appd" {
     enabled = bool
     use_o2_operator = optional(bool)
     kubernetes = object({
-      namespace = string
-      repository = optional(string)
-      chart_name = optional(string)
+      namespace     = string
+      release_name  = optional(string)
+      repository    = optional(string)
+      chart_name    = optional(string)
       })
     account = object({
       url            = optional(string)
@@ -31,6 +33,11 @@ variable "appd" {
       global_account = optional(string)
     })
     install_metrics_server  = optional(bool)
+    metrics_server = optional(object({
+      release_name  = optional(string)
+      repository    = optional(string)
+      chart_name    = optional(string)
+      }))
     install_cluster_agent   = optional(bool)
     install_machine_agents  = optional(bool)
     infraviz = optional(object({

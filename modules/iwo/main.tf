@@ -9,17 +9,26 @@ terraform {
   }
 }
 
-### Kubernetes  ###
+### Set Defaults ###
+locals {
+  iwo = defaults(var.iwo, {
+    release_name              = "iwo-collector"
+    server_version            = "8.4"
+    collector_image_version   = "8.4.4.1"
+    dc_image_version          = "1.0.9-110"
+  })
+}
 
+### Kubernetes  ###
 resource "kubernetes_namespace" "iwo" {
   metadata {
     annotations = {
-      name = var.namespace
+      name = local.iwo.namespace
     }
     labels = {
-      "app.kubernetes.io/name" = var.namespace
+      "app.kubernetes.io/name" = local.iwo.namespace
     }
-    name = var.namespace
+    name = local.iwo.namespace
   }
 }
 
@@ -28,29 +37,29 @@ resource "kubernetes_namespace" "iwo" {
 ## Add IWO K8S Collector Release ##
 resource "helm_release" "iwo-collector" {
  namespace   = kubernetes_namespace.iwo.metadata[0].name
- name        = "iwo-collector"
-
- chart       = var.chart_url
+ name        = local.iwo.release_name
+ # repository  = local.iwo.repository - chart_url used
+ chart       = local.iwo.chart_url
 
  set {
    ## Get latest DC image
-   name   = "connectorImage.tag"
-   value  = var.dc_image_version
+   name  = "connectorImage.tag"
+   value = local.iwo.dc_image_version
  }
 
  set {
    name  = "iwoServerVersion"
-   value = var.server_version
+   value = local.iwo.server_version
  }
 
  set {
    name  = "collectorImage.tag"
-   value = var.collector_image_version
+   value = local.iwo.collector_image_version
  }
 
  set {
    name  = "targetName"
-   value = var.cluster_name
+   value = local.iwo.cluster_name
  }
 
 }

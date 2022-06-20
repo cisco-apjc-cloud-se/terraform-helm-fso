@@ -15,14 +15,20 @@ locals {
   appd = defaults( var.appd, {
     use_o2_operator = false
     kubernetes = {
-      namespace = "appd"
-      repository = "https://ciscodevnet.github.io/appdynamics-charts"
-      chart_name = "cluster-agent"
+      namespace     = "appd"
+      release_name  = "appd-operator"
+      repository    = "https://ciscodevnet.github.io/appdynamics-charts"
+      chart_name    = "cluster-agent"
     }
     account = {
       global_account_name = ""
     }
     install_metrics_server = false
+    metrics_server = {
+      release_name  = "appd-metrics-server"
+      repository    = "https://kubernetes-sigs.github.io/metrics-server/"
+      chart_name    = "metrics-server"
+    }
     install_cluster_agent = true
     install_machine_agents = false
     infraviz = {
@@ -111,11 +117,10 @@ resource "kubernetes_namespace" "appd" {
 resource "helm_release" "metrics-server" {
   count = local.appd.install_metrics_server == true ? 1 : 0
 
-  name = "appd-metrics-server"
+  name = local.appd.metrics_server.release_name # "appd-metrics-server"
   namespace   = kubernetes_namespace.appd.metadata[0].name
-  repository = "https://kubernetes-sigs.github.io/metrics-server/"
-  # repository = "https://charts.bitnami.com/bitnami"
-  chart = "metrics-server"
+  repository = local.appd.metrics_server.repository # "https://kubernetes-sigs.github.io/metrics-server/"
+  chart = local.appd.metrics_server.chart_name # "metrics-server"
 
   values = [<<EOF
     apiService:
@@ -137,7 +142,7 @@ resource "helm_release" "appd-operator" {
   count = local.appd.use_o2_operator == true ? 0 : 1
 
   namespace   = kubernetes_namespace.appd.metadata[0].name
-  name        = "appd-operator"
+  name        = local.appd.kubernetes.release_name #"appd-operator"
   repository  = local.appd.kubernetes.repository
   chart       = local.appd.kubernetes.chart_name
   values = [ <<EOF
