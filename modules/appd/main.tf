@@ -163,7 +163,7 @@ netViz:
 {% if local.appd.cluster_agent.install_service == true }
 clusterAgent:
  appName: ${local.appd.cluster_agent.app_name}
- nsToMonitorRegex: ${local.appd.cluster_agent.montior_namespace_regex}
+ nsToMonitorRegex: ${local.appd.cluster_agent.monitor_namespace_regex}
 {% endif }
 
 instrumentationConfig:

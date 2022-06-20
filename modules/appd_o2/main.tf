@@ -112,9 +112,9 @@ EOF
 ## AppDynamics Kubernetes Operator >= 22.5 ##
 resource "helm_release" "appd_k8s_monitoring" {
   namespace   = kubernetes_namespace.appd.metadata[0].name
-  name        = local.appd.kubernetes.release_name
-  repository  = local.appd.kubernetes.repository
-  chart       = local.appd.kubernetes.chart_name
+  name        = local.appd.monitor.helm.release_name
+  repository  = local.appd.monitor.helm.repository
+  chart       = local.appd.monitor.helm.chart_name
   values = [<<EOF
 install:
   clustermon: true
