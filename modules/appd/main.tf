@@ -7,6 +7,86 @@ terraform {
       source = "hashicorp/kubernetes"
     }
   }
+  experiments = [module_variable_optional_attrs]
+}
+
+### Set Defaults ###
+locals {
+  appd = defaults( var.appd, {
+    use_o2_operator = false
+    kubernetes = {
+      namespace = "appd"
+      repository = "https://ciscodevnet.github.io/appdynamics-charts"
+      chart_name = "cluster-agent"
+    }
+    account = {
+      global_account_name = ""
+    }
+    install_metrics_server = false
+    install_cluster_agent = true
+    install_machine_agents = false
+    infraviz = {
+      enable_container_hostid = true
+      enable_dockerviz = true
+      enable_serverviz = true
+      enable_masters = false
+      stdout_logging = false
+    }
+    netviz = {
+      enabled = false
+      port = 3892
+    }
+    cluster = {
+      montior_namespace_regex = ".*"
+    }
+    autoinstrument = {
+      enabled = false
+      namespace_regex = ""
+      default_appname = ""
+      appname_strategy = "manual"
+      java = {
+        enabled = false
+        runasuser = 10001
+        image = "docker.io/appdynamics/java-agent:latest"
+        imagepullpolicy = "Always"
+      }
+      dotnetcore = {
+        enabled = false
+        runasuser = 10001
+        image = "docker.io/appdynamics/dotnet-core-agent:latest"
+        imagepullpolicy = "Always"
+      }
+      nodejs = {
+        enabled = false
+        runasuser = 10001
+        image = "docker.io/appdynamics/nodejs-agent:21.9.0-16-alpine"  ## No Latest Image Tag
+        imagepullpolicy = "Always"
+      }
+    }
+    imageinfo = {
+      imagepullpolicy = "Always"
+      clusteragent = {
+        image = "docker.io/appdynamics/cluster-agent"
+        tag = "latest"
+      }
+      operator = {
+        image = "docker.io/appdynamics/cluster-agent-operator"
+        tag = "latest"
+      }
+      machineagent = {
+        image = "docker.io/appdynamics/machine-agent"
+        tag = "latest"
+      }
+      machineagentwin = {
+        image = "docker.io/appdynamics/machine-agent-analytics"
+        tag = "win-latest"
+      }
+      netviz = {
+        image = "docker.io/appdynamics/machine-agent-netviz"
+        tag = "latest"
+      }
+    }
+  })
 }
 
 ### Kubernetes  ###
@@ -14,12 +94,12 @@ terraform {
 resource "kubernetes_namespace" "appd" {
   metadata {
     annotations = {
-      name = var.namespace
+      name = local.appd.kubernetes.namespace
     }
     labels = {
-      "app.kubernetes.io/name" = var.namespace
+      "app.kubernetes.io/name" = local.appd.kubernetes.namespace
     }
-    name = var.namespace
+    name = local.appd.kubernetes.namespace
   }
 }
 
@@ -29,7 +109,7 @@ resource "kubernetes_namespace" "appd" {
 # - Required for AppD Cluster Agent
 
 resource "helm_release" "metrics-server" {
-  count = var.install_metrics_server == true ? 1 : 0
+  count = local.appd.install_metrics_server == true ? 1 : 0
 
   name = "appd-metrics-server"
   namespace   = kubernetes_namespace.appd.metadata[0].name
@@ -50,114 +130,120 @@ resource "helm_release" "metrics-server" {
 
 EOF
   ]
-
-  # set {
-  #   name = "apiService.create"
-  #   value = true
-  # }
-  #
-  # set {
-  #   name = "extraArgs.kubelet-insecure-tls"
-  #   value = true
-  # }
-  #
-  # set {
-  #   name = "extraArgs.kubelet-preferred-address-types"
-  #   value = "InternalIP\\,ExternalIP\\,Hostname"
-  # }
-
 }
 
-## AppDynamics Kubernetes Operator ##
+## AppDynamics Kubernetes Operator < 22.5 ##
 resource "helm_release" "appd-operator" {
-   namespace   = kubernetes_namespace.appd.metadata[0].name
-   name        = "appd-operator"
+  count = local.appd.use_o2_operator == true ? 0 : 1
 
-   repository  = var.repository
-   chart       = var.chart_name
+  namespace   = kubernetes_namespace.appd.metadata[0].name
+  name        = "appd-operator"
+  repository  = local.appd.kubernetes.repository
+  chart       = local.appd.kubernetes.chart_name
+  values = [ <<EOF
 
-   values = [ <<EOF
+installClusterAgent: ${local.appd.install_cluster_agent}
+installInfraViz: ${local.appd.install_machine_agents}
 
-installClusterAgent: ${var.install_cluster_agent}
-installInfraViz: ${var.install_machine_agents}
-
+{% if local.appd.install_machine_agents == true }
 infraViz:
-  enableContainerHostId: ${var.infraviz_enable_container_hostid}
-  enableDockerViz: ${var.infraviz_enable_dockerviz}
-  enableMasters: ${var.infraviz_enable_masters}
-  enableServerViz: ${var.infraviz_enable_serverviz}
+  enableContainerHostId: ${local.appd.infraviz.enable_container_hostid}
+  enableDockerViz: ${local.appd.infraviz.enable_dockerviz}
+  enableMasters: ${local.appd.infraviz.enable_masters}
+  enableServerViz: ${local.appd.infraviz.enable_serverviz}
   nodeOS: linux
-  stdoutLogging: ${var.infraviz_stdout_logging}
+  stdoutLogging: ${local.appd.infraviz.stdout_logging}
 
 netViz:
-  enabled: ${var.netviz_enabled}
-  # netVizPort: 3892
+  enabled: ${local.appd.netviz.enabled}
+  netVizPort: ${local.appd.netviz.port}
+{% endif }
 
+{% if local.appd.install_cluster_agent == true }
 clusterAgent:
- appName: ${var.clusteragent_app_name}
- nsToMonitorRegex: ${var.clusteragent_montior_namespace_regex}
+ appName: ${local.appd.cluster.app_name}
+ nsToMonitorRegex: ${local.appd.cluster.montior_namespace_regex}
+{% endif }
 
 instrumentationConfig:
- enabled: ${var.autoinstrumentation_enabled}
+ enabled: ${local.appd.autoinstrument.enabled}
  instrumentationMethod: env
- nsToInstrumentRegex: ${var.autoinstrumentation_namespace_regex}
- defaultAppName: ${var.autoinstrumentation_default_appname}
- appNameStrategy: ${var.autoinstrumentation_appname_strategy}
+ nsToInstrumentRegex: ${local.appd.autoinstrument.namespace_regex}
+ defaultAppName: ${local.appd.autoinstrument.default_appname}
+ appNameStrategy: ${local.appd.autoinstrument.appname_strategy}
  instrumentationRules:
+ {% if local.appd.autoinstrument.java != null }
    - language: java
-     # runAsGroup: 10001
-     runAsUser: ${var.autoinstrumentation_java_runasuser}
+     runAsUser: ${local.appd.autoinstrument.java.runasuser}
      labelMatch:
        - framework: java
      imageInfo:
-       image: ${var.autoinstrumentation_java_image}
+       image: ${local.appd.autoinstrument.java.image}
        agentMountPath: /opt/appdynamics
-       imagePullPolicy: ${var.autoinstrumentation_java_imagepullpolicy}
+       imagePullPolicy: ${local.appd.autoinstrument.java.imagepullpolicy}
+  {% endif }
+  {% if local.appd.autoinstrument.dotnetcore != null }
    - language: dotnetcore
-     runAsUser: ${var.autoinstrumentation_dotnetcore_runasuser}
+     runAsUser: ${local.appd.autoinstrument.dotnetcore.runasuser}
      labelMatch:
        - framework: dotnetcore
      imageInfo:
-       image: ${var.autoinstrumentation_dotnetcore_image}
+       image: ${local.appd.autoinstrument.dotnetcore.image}
        agentMountPath: /opt/appdynamics
-       imagePullPolicy: ${var.autoinstrumentation_dotnetcore_imagepullpolicy}
+       imagePullPolicy: ${local.appd.autoinstrument.dotnetcore.imagepullpolicy}
+  {% endif }
+  {% if local.appd.autoinstrument.nodejs != null }
    - language: nodejs
-     runAsUser: ${var.autoinstrumentation_nodejs_runasuser}
+     runAsUser: ${local.appd.autoinstrument.nodejs.runasuser}
      labelMatch:
        - framework: nodejs
      imageInfo:
-       image: ${var.autoinstrumentation_nodejs_image}
+       image: ${local.appd.autoinstrument.nodejs.image}
        agentMountPath: /opt/appdynamics
-       imagePullPolicy: ${var.autoinstrumentation_nodejs_imagepullpolicy}
+       imagePullPolicy: ${local.appd.autoinstrument.nodejs.imagepullpolicy}
+  {% endif }
 
 imageInfo:
- agentImage: ${var.imageinfo_clusteragent_image}
- agentTag: ${var.imageinfo_clusteragent_tag}
- operatorImage: ${var.imageinfo_operator_image}
- operatorTag: ${var.imageinfo_operator_tag}
- imagePullPolicy: ${var.imageinfo_imagepullpolicy}
- machineAgentImage: ${var.imageinfo_machineagent_image}
- machineAgentTag: ${var.imageinfo_machineagent_tag}
- machineAgentWinImage: ${var.imageinfo_machineagentwin_image}
- machineAgentWinTag: ${var.imageinfo_machineagentwin_tag}
- netVizImage: ${var.imageinfo_netviz_image}
- netvizTag: ${var.imageinfo_netviz_tag}
+ agentImage: ${local.appd.imageinfo.clusteragent.image}
+ agentTag: ${local.appd.imageinfo.clusteragent.tag}
+ operatorImage: ${local.appd.imageinfo.operator.image}
+ operatorTag: ${local.appd.imageinfo.operator.tag}
+ imagePullPolicy: ${local.appd.imageinfo.imagepullpolicy}
+ {% if local.appd.install_machine_agents == true }
+ machineAgentImage: ${local.appd.imageinfo.machineagent.image}
+ machineAgentTag: ${local.appd.imageinfo.machineagent.tag}
+ machineAgentWinImage: ${local.appd.imageinfo.machineagentwin.image}
+ machineAgentWinTag: ${local.appd.imageinfo.machineagentwin.tag}
+ netVizImage: ${local.appd.imageinfo.netviz.image}
+ netvizTag: ${local.appd.imageinfo.netviz.tag}
+ {% endif }
 controllerInfo:
- url: ${var.account_url == null ? format("https://%s.saas.appdynamics.com:443", var.account_name) : var.account_url}
- account: ${var.account_name}
- username: ${var.account_username}
- password: ${var.account_password}
- accessKey: ${var.account_key}
- globalAccount: ${var.global_account_name == null ? "" : var.global_account_name }   # To be provided when using machineAgent Window Image
+ url: ${local.appd.account.url == null ? format("https://%s.saas.appdynamics.com:443", local.appd.account.name ) : local.appd.account.url }
+ account: ${local.appd.account.name}
+ username: ${local.appd.account.username}
+ password: ${local.appd.account.password}
+ accessKey: ${local.appd.account.key}
+ globalAccount: ${local.appd.account.global_account == null ? "" : local.appd.account.global_account }   # To be provided when using machineAgent Window Image
 
 agentServiceAccount: appdynamics-cluster-agent
 operatorServiceAccount: appdynamics-operator
 infravizServiceAccount: appdynamics-infraviz
 
-# Disabled - Now uses direct helm chart
-# install:
-#   metrics-server:  ${var.install_metrics_server}
+# Disabled by default - Now uses direct helm chart
+install:
+  metrics-server: ${local.appd.install_metrics_server}
 
 EOF
    ]
+}
+
+## AppDynamics Kubernetes Operator >= 22.5 ##
+resource "helm_release" "appd-operator-o2" {
+  count = local.appd.use_o2_operator == true ? 1 : 0
+
+  namespace   = kubernetes_namespace.appd.metadata[0].name
+  name        = "appd-operator-o2"
+  repository  = local.appd.kubernetes.repository
+  chart       = local.appd.kubernetes.chart_name
+  values = []
 }

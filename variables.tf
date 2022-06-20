@@ -15,6 +15,7 @@ variable "iwo" {
 variable "appd" {
   type = object({
     enabled = bool
+    use_o2_operator = optional(bool)
     kubernetes = object({
       namespace = string
       repository = optional(string)
@@ -41,6 +42,7 @@ variable "appd" {
       }))
     netviz = optional(object({
       enabled = optional(bool)
+      port    = optional(number)
       }))
     cluster = optional(object({
       app_name                = optional(string)
@@ -52,42 +54,45 @@ variable "appd" {
       default_appname   = optional(string)
       appname_strategy  = optional(string)
       java = optional(object({
+        enabled         = optional(bool)
         runasuser       = optional(number)
         image           = optional(string)
         imagepullpolicy = optional(string)
         }))
       dotnetcore = optional(object({
+        enabled         = optional(bool)
         runasuser       = optional(number)
         image           = optional(string)
         imagepullpolicy = optional(string)
         }))
       nodejs = optional(object({
+        enabled         = optional(bool)
         runasuser       = optional(number)
         image           = optional(string)
         imagepullpolicy = optional(string)
         }))
-      imageinfo = optional(object({
-        imagepullpolicy = optional(string)
-        clusteragent = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        operator = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        machineagent = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        machineagentwin = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        netviz = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
+      }))
+    imageinfo = optional(object({
+      imagepullpolicy = optional(string)
+      clusteragent = optional(object({
+        image = optional(string)
+        tag   = optional(string)
+        }))
+      operator = optional(object({
+        image = optional(string)
+        tag   = optional(string)
+        }))
+      machineagent = optional(object({
+        image = optional(string)
+        tag   = optional(string)
+        }))
+      machineagentwin = optional(object({
+        image = optional(string)
+        tag   = optional(string)
+        }))
+      netviz = optional(object({
+        image = optional(string)
+        tag   = optional(string)
         }))
       }))
     })
