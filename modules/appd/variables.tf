@@ -4,7 +4,7 @@ variable "appd" {
     enabled = bool
     use_o2_operator = optional(bool)
     kubernetes = object({
-      namespace     = string
+      namespace = string
       release_name  = optional(string)
       repository    = optional(string)
       chart_name    = optional(string)
