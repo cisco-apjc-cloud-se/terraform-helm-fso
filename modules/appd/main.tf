@@ -113,8 +113,6 @@ resource "kubernetes_namespace" "appd" {
 ## Add Metrics Server Release ##
 # - Required for AppD Cluster Agent
 
-# NOTE: defaults() not working for setting optional values to optional objects
-
 resource "helm_release" "metrics_server" {
   count = local.appd.metrics_server.install_service == true ? 1 : 0
 
