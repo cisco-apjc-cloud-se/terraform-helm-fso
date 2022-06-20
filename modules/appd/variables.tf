@@ -2,7 +2,6 @@
 variable "appd" {
   type = object({
     enabled = bool
-    use_o2_operator = optional(bool)
     kubernetes = object({
       namespace = string
       release_name  = optional(string)

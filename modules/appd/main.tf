@@ -13,7 +13,6 @@ terraform {
 ### Set Defaults ###
 locals {
   appd = defaults(var.appd,{
-    use_o2_operator = false
     kubernetes = {
       namespace     = "appd"
       release_name  = "appd-operator"
@@ -138,8 +137,6 @@ EOF
 
 ## AppDynamics Kubernetes Operator < 22.5 ##
 resource "helm_release" "appd_operator" {
-  count = local.appd.use_o2_operator == true ? 0 : 1
-
   namespace   = kubernetes_namespace.appd.metadata[0].name
   name        = local.appd.kubernetes.release_name #"appd-operator"
   repository  = local.appd.kubernetes.repository
