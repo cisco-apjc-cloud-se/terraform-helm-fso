@@ -23,15 +23,16 @@ module "iwo" {
   source = "./modules/iwo"
   count = var.iwo.enabled == true ? 1 : 0
 
-  ### Kubernetes Settings ###
-  namespace                 = var.iwo.namespace
-
-  ### IWO Helm Chart Setttings ###
-  chart_url                 = var.iwo.chart_url
-  cluster_name              = var.iwo.cluster_name
-  server_version            = var.iwo.server_version  # Optional
-  collector_image_version   = var.iwo.collector_image_version # Optional
-  dc_image_version          = var.iwo.dc_image_version # Optional
+  iwo = var.iwo
+  # ### Kubernetes Settings ###
+  # namespace                 = var.iwo.namespace
+  #
+  # ### IWO Helm Chart Setttings ###
+  # chart_url                 = var.iwo.chart_url
+  # cluster_name              = var.iwo.cluster_name
+  # server_version            = var.iwo.server_version  # Optional
+  # collector_image_version   = var.iwo.collector_image_version # Optional
+  # dc_image_version          = var.iwo.dc_image_version # Optional
 
 }
 
