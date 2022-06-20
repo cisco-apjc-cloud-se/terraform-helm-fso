@@ -118,10 +118,10 @@ resource "kubernetes_namespace" "appd" {
 resource "helm_release" "metrics_server" {
   count = local.appd.metrics_server.install_service == true ? 1 : 0
 
-  name        = try(local.appd.metrics_server.release_name, "appd-metrics-server") # "appd-metrics-server"
+  name        = local.appd.metrics_server.release_name # "appd-metrics-server"
   namespace   = kubernetes_namespace.appd.metadata[0].name
-  repository  = try(local.appd.metrics_server.repository, "https://kubernetes-sigs.github.io/metrics-server/") # "https://kubernetes-sigs.github.io/metrics-server/"
-  chart       = try(local.appd.metrics_server.chart_name, "metrics-server") # "metrics-server"
+  repository  = local.appd.metrics_server.repository # "https://kubernetes-sigs.github.io/metrics-server/"
+  chart       = local.appd.metrics_server.chart_name # "metrics-server"
 
   values = [<<EOF
     apiService:
