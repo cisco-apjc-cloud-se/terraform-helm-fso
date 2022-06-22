@@ -38,14 +38,14 @@ module "iwo" {
 
 module "appd" {
   source = "./modules/appd"
-  count = var.appd.enabled == true && var.appd.o2_operator.enabled == false ? 1 : 0
+  count = var.appd.enabled == true ? 1 : 0
 
-  appd = var.appd.legacy
+  appd = var.appd
 }
 
-module "appd_o2" {
-  source = "./modules/appd_o2"
-  count = var.appd.enabled == true && var.appd.o2_operator.enabled == true ? 1 : 0
-
-  appd = var.appd.o2_operator
-}
+# module "appd_o2" {
+#   source = "./modules/appd_o2"
+#   count = var.appd.enabled == true && var.appd.o2_operator.enabled == true ? 1 : 0
+#
+#   appd = var.appd.o2_operator
+# }

@@ -63,7 +63,7 @@ variable "appd" {
     cluster_agent = object({
       install_service           = bool
       app_name                  = optional(string)
-      monitor_namespace_regex   = optional(string)
+      monitor_namespace_regex  = optional(string)
       })
     autoinstrument = object({
       enabled           = bool
@@ -91,7 +91,6 @@ variable "appd" {
       })
     })
 }
-
 
 # ### Kubernetes Variables ###
 # variable "namespace" {
