@@ -90,6 +90,41 @@ variable "appd" {
         }))
       })
     })
+
+  default = {
+    enabled = true
+    kubernetes = {
+      namespace = ""
+      imageinfo = {
+        clusteragent = {}
+        operator = {}
+        machineagent = {}
+        machineagentwin = {}
+        netviz = {}
+        }
+    }
+    account = {
+      name = ""
+      key  = ""
+    }
+    metrics_server = {
+      install_service = true
+      }
+    machine_agent = {
+      install_service = false
+      infraviz = {}
+      netviz = {}
+      }
+    cluster_agent = {
+      install_service = true
+      }
+    autoinstrument = {
+      enabled           = false
+      java = {}
+      dotnetcore = {}
+      nodejs = {}
+      }
+    }
 }
 
 # ### Kubernetes Variables ###
