@@ -21,6 +21,7 @@ variable "appd" {
       release_name  = optional(string)
       repository    = optional(string)
       chart_name    = optional(string)
+      version       = optional(string)
       imageinfo     = object({
         imagepullpolicy = optional(string)
         clusteragent    = object({

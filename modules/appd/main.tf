@@ -18,6 +18,7 @@ locals {
       release_name  = "appd-operator"
       repository    = "https://ciscodevnet.github.io/appdynamics-charts"
       chart_name    = "cluster-agent"
+      version       = "1.3.0"
       imageinfo = {
         imagepullpolicy = "Always"
         clusteragent = {
@@ -141,6 +142,8 @@ resource "helm_release" "appd_operator" {
   name        = local.appd.kubernetes.release_name #"appd-operator"
   repository  = local.appd.kubernetes.repository
   chart       = local.appd.kubernetes.chart_name
+  version     = local.appd.kubernetes.version
+
   values = [ <<EOF
 
 installClusterAgent: ${local.appd.cluster_agent.install_service}
