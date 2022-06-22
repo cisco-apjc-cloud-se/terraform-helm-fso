@@ -12,12 +12,13 @@ terraform {
 
 ### Set Defaults ###
 locals {
-  merged = merge({
-    machine_agent = {
-      infraviz = {}
-    }
-    }, var.appd)
-  appd = defaults(local.merged,{
+  # merged = merge({
+  #   machine_agent = {
+  #     infraviz = {}
+  #   }
+  #   }, var.appd)
+  # appd = defaults(local.merged,{
+  appd = merge({
     kubernetes = {
       namespace     = "appd"
       release_name  = "appd-operator"
@@ -95,7 +96,8 @@ locals {
         imagepullpolicy = "Always"
       }
     }
-  })
+  # })
+  }, var.appd)
 }
 
 ### Kubernetes  ###
