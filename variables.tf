@@ -17,21 +17,21 @@ variable "appd" {
   type = object({
     enabled = bool
     kubernetes = object({
-      namespace = string
+      namespace     = string
       release_name  = optional(string)
       repository    = optional(string)
       chart_name    = optional(string)
-      imageinfo = optional(object({
+      imageinfo     = object({
         imagepullpolicy = optional(string)
-        clusteragent = optional(object({
+        clusteragent    = object({
+          image = optional(string)
+          tag   = optional(string)
+          })
+        operator        = optional(object({
           image = optional(string)
           tag   = optional(string)
           }))
-        operator = optional(object({
-          image = optional(string)
-          tag   = optional(string)
-          }))
-        machineagent = optional(object({
+        machineagent    = optional(object({
           image = optional(string)
           tag   = optional(string)
           }))
@@ -39,11 +39,11 @@ variable "appd" {
           image = optional(string)
           tag   = optional(string)
           }))
-        netviz = optional(object({
+        netviz          = optional(object({
           image = optional(string)
           tag   = optional(string)
           }))
-        }))
+        })
       })
     account = object({
       url            = optional(string)
@@ -104,4 +104,39 @@ variable "appd" {
         }))
       })
     })
+
+  default = {
+    enabled = true
+    kubernetes = {
+      namespace = ""
+      imageinfo = {
+        clusteragent = {}
+        operator = {}
+        machineagent = {}
+        machineagentwin = {}
+        netviz = {}
+        }
+    }
+    account = {
+      name = ""
+      key  = ""
+    }
+    metrics_server = {
+      install_service = true
+      }
+    machine_agent = {
+      install_service = false
+      infraviz = {}
+      netviz = {}
+      }
+    cluster_agent = {
+      install_service = true
+      }
+    autoinstrument = {
+      enabled           = false
+      java = {}
+      dotnetcore = {}
+      nodejs = {}
+      }
+    }
 }
