@@ -12,7 +12,12 @@ terraform {
 
 ### Set Defaults ###
 locals {
-  appd = defaults(var.appd,{
+  merged = merge({
+    machine_agent = {
+      infraviz = {}
+    }
+    }, var.appd)
+  appd = defaults(local.merged,{
     kubernetes = {
       namespace     = "appd"
       release_name  = "appd-operator"
