@@ -122,7 +122,7 @@ install:
   logCollector: false
 
 mTLS:
-  enabled: true
+  enabled: false # true
   client:
     secretName: ""
     secretKeys:
