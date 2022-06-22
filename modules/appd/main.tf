@@ -146,7 +146,6 @@ resource "helm_release" "appd_operator" {
 installClusterAgent: ${local.appd.cluster_agent.install_service}
 installInfraViz: ${local.appd.machine_agent.install_service}
 
-{% if local.appd.machine_agent.install_service == true }
 infraViz:
   enableContainerHostId: ${local.appd.machine_agent.infraviz.enable_container_hostid}
   enableDockerViz: ${local.appd.machine_agent.infraviz.enable_dockerviz}
@@ -158,13 +157,10 @@ infraViz:
 netViz:
   enabled: ${local.appd.machine_agent.netviz.enabled}
   netVizPort: ${local.appd.machine_agent.netviz.port}
-{% endif }
 
-{% if local.appd.cluster_agent.install_service == true }
 clusterAgent:
  appName: ${local.appd.cluster_agent.app_name}
  nsToMonitorRegex: ${local.appd.cluster_agent.monitor_namespace_regex}
-{% endif }
 
 instrumentationConfig:
  enabled: ${local.appd.autoinstrument.enabled}
@@ -173,7 +169,6 @@ instrumentationConfig:
  defaultAppName: ${local.appd.autoinstrument.default_appname}
  appNameStrategy: ${local.appd.autoinstrument.appname_strategy}
  instrumentationRules:
- {% if local.appd.autoinstrument.java.enabled == true }
    - language: java
      runAsUser: ${local.appd.autoinstrument.java.runasuser}
      labelMatch:
@@ -182,8 +177,6 @@ instrumentationConfig:
        image: ${local.appd.autoinstrument.java.image}
        agentMountPath: /opt/appdynamics
        imagePullPolicy: ${local.appd.autoinstrument.java.imagepullpolicy}
-  {% endif }
-  {% if local.appd.autoinstrument.dotnetcore.enabled == true }
    - language: dotnetcore
      runAsUser: ${local.appd.autoinstrument.dotnetcore.runasuser}
      labelMatch:
@@ -192,8 +185,6 @@ instrumentationConfig:
        image: ${local.appd.autoinstrument.dotnetcore.image}
        agentMountPath: /opt/appdynamics
        imagePullPolicy: ${local.appd.autoinstrument.dotnetcore.imagepullpolicy}
-  {% endif }
-  {% if local.appd.autoinstrument.nodejs.enabled == true }
    - language: nodejs
      runAsUser: ${local.appd.autoinstrument.nodejs.runasuser}
      labelMatch:
@@ -202,24 +193,19 @@ instrumentationConfig:
        image: ${local.appd.autoinstrument.nodejs.image}
        agentMountPath: /opt/appdynamics
        imagePullPolicy: ${local.appd.autoinstrument.nodejs.imagepullpolicy}
-  {% endif }
 
 imageInfo:
  imagePullPolicy: ${local.appd.kubernetes.imageinfo.imagepullpolicy}
- {% if local.appd.cluster_agent.install_service == true }
  agentImage: ${local.appd.kubernetes.imageinfo.clusteragent.image}
  agentTag: ${local.appd.kubernetes.imageinfo.clusteragent.tag}
- {% endif }
  operatorImage: ${local.appd.kubernetes.imageinfo.operator.image}
  operatorTag: ${local.appd.kubernetes.imageinfo.operator.tag}
- {% if local.appd.machine_agent.install_service == true }
  machineAgentImage: ${local.appd.kubernetes.imageinfo.machineagent.image}
  machineAgentTag: ${local.appd.kubernetes.imageinfo.machineagent.tag}
  machineAgentWinImage: ${local.appd.kubernetes.imageinfo.machineagentwin.image}
  machineAgentWinTag: ${local.appd.kubernetes.imageinfo.machineagentwin.tag}
  netVizImage: ${local.appd.kubernetes.imageinfo.netviz.image}
  netvizTag: ${local.appd.kubernetes.imageinfo.netviz.tag}
- {% endif }
 
 controllerInfo:
  url: ${local.appd.account.url == null ? format("https://%s.saas.appdynamics.com:443", local.appd.account.name ) : local.appd.account.url }
